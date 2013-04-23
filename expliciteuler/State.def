@@ -1,0 +1,21 @@
+Packed-Type: short int;
+
+class rotatingheatsource::expliciteuler::dastgen::State {
+  persistent parallelise double updateUMax;
+
+  persistent parallelise double updateUH;
+
+  persistent parallelise double uMax;
+
+  persistent parallelise double uH;
+  
+  persistent parallelise int timeStep;
+  
+  persistent parallelise double timeStepSize;
+
+  persistent parallelise double time;
+
+  persistent parallelise double numberOfStencilUpdates;
+
+  persistent parallelise int globalPlotCounter;
+};

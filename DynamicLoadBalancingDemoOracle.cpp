@@ -1,0 +1,91 @@
+#include "rotatingheatsource/DynamicLoadBalancingDemoOracle.h"
+#include "tarch/parallel/Node.h"
+
+
+tarch::logging::Log  rotatingheatsource::DynamicLoadBalancingDemoOracle::_log( "rotatingheatsource::DynamicLoadBalancingDemoOracle" );
+
+
+bool  rotatingheatsource::DynamicLoadBalancingDemoOracle::_forkHasFailed = false;
+
+
+const int  rotatingheatsource::DynamicLoadBalancingDemoOracle::JoinEveryKIterations = 20;
+
+
+rotatingheatsource::DynamicLoadBalancingDemoOracle::DynamicLoadBalancingDemoOracle():
+  _iterationCountSinceLastJoin(0) {
+}
+
+
+rotatingheatsource::DynamicLoadBalancingDemoOracle::~DynamicLoadBalancingDemoOracle() {
+}
+
+
+void rotatingheatsource::DynamicLoadBalancingDemoOracle::receivedStartCommand(const peano::parallel::loadbalancing::LoadBalancingFlag& commandFromMaster ) {
+  if (commandFromMaster==peano::parallel::loadbalancing::Join) {
+    _iterationCountSinceLastJoin = 0;
+  }
+  else {
+    _iterationCountSinceLastJoin++;
+  }
+}
+
+
+peano::parallel::loadbalancing::LoadBalancingFlag rotatingheatsource::DynamicLoadBalancingDemoOracle::getCommandForWorker( int workerRank, bool forkIsAllowed, bool joinIsAllowed ) {
+  if ( _iterationCountSinceLastJoin > JoinEveryKIterations-5 ) {
+    _forkHasFailed = false;
+  }
+
+  // This is a demo scenario
+  if (
+    tarch::parallel::Node::getInstance().getNumberOfNodes()==4 &&
+    workerRank!=2
+  ) {
+    joinIsAllowed = false;
+  }
+
+  if ( joinIsAllowed && _iterationCountSinceLastJoin > JoinEveryKIterations ) {
+    _iterationCountSinceLastJoin = 0;    // avoid too many joins in a row
+    _forkHasFailed               = true; // avoid immediate refork
+    return peano::parallel::loadbalancing::Join;
+  }
+  else if (!_forkHasFailed && forkIsAllowed) {
+    return peano::parallel::loadbalancing::ForkGreedy;
+  }
+  else {
+    return peano::parallel::loadbalancing::Continue;
+  }
+}
+
+
+void rotatingheatsource::DynamicLoadBalancingDemoOracle::receivedTerminateCommand(
+  int     workerRank,
+  double  waitedTime,
+  double  workerNumberOfInnerVertices,
+  double  workerNumberOfBoundaryVertices,
+  double  workerNumberOfOuterVertices,
+  double  workerNumberOfInnerCells,
+  double  workerNumberOfOuterCells,
+  int     workerMaxLevel,
+  double  workerLocalWorkload,
+  double  workerTotalWorkload,
+  int     currentLevel,
+  double  parentCellLocalWorkload,
+  double  parentCellTotalWorkload,
+  const tarch::la::Vector<DIMENSIONS,double>& boundingBoxOffset,
+  const tarch::la::Vector<DIMENSIONS,double>& boundingBoxSize
+) {
+}
+
+
+void rotatingheatsource::DynamicLoadBalancingDemoOracle::plotStatistics() {
+}
+
+
+peano::parallel::loadbalancing::OracleForOnePhase* rotatingheatsource::DynamicLoadBalancingDemoOracle::createNewOracle(int adapterNumber) const {
+  return new DynamicLoadBalancingDemoOracle();
+}
+
+
+void rotatingheatsource::DynamicLoadBalancingDemoOracle::forkFailed() {
+  _forkHasFailed = true;
+}

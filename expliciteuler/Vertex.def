@@ -1,0 +1,35 @@
+Packed-Type: short int;
+
+Constant: DIMENSIONS;
+Constant: THREE_POWER_D;
+Constant: FIVE_POWER_D;
+Constant: TWO_POWER_D;
+
+class rotatingheatsource::expliciteuler::dastgen::Vertex {
+  #ifdef Asserts
+  persistent parallelise double  rhs;
+  persistent parallelise double  u;
+  #endif
+  
+  #ifndef Asserts
+  persistent double  rhs;
+  persistent double  u;
+  #endif
+  
+  /**
+   * I interprete the explicit Euler step as solving an equation system with a 
+   * diagonal system matrix, i.e. there is something like a residual that 
+   * simply describes the solution update.
+   */
+  discard parallelise double  residual;
+  
+  /**
+   * The stencil also incorporates the permeability coefficients.
+   */
+  persistent double stencil[THREE_POWER_D];  
+
+  /**
+   * Has to be persistent. Otherwise I cannot visualise it.
+   */
+  persistent parallelise double linearSurplus[DIMENSIONS];
+};

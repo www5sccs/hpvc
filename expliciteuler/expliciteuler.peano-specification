@@ -1,0 +1,61 @@
+component: DiffusionEquationWithExplicitTimeStepping
+
+namespace: rotatingheatsource::expliciteuler
+
+vertex:
+  dastgen-file: Vertex.def
+  read scalar: Rhs
+  read scalar: U
+  read scalar: Residual
+  read stencil: Stencil
+  read vector: LinearSurplus
+  write vector: LinearSurplus
+  write scalar: Residual
+  
+cell:
+  dastgen-file: Cell.def
+
+state:
+  dastgen-file: State.def
+
+event-mapping:
+  name: SetupExperiment
+
+event-mapping:
+  name: PerformExplicitEulerTimeStep
+ 
+event-mapping:
+  name: ApplyRefineDeleteCriterion
+ 
+event-mapping:
+  name: CoarseSolution
+
+adapter:
+  name: SetupExperiment
+  merge-with-user-defined-mapping: SetupExperiment
+  merge-with-predefined-mapping: VTKGridVisualiser(startgrid)
+
+adapter:
+  name: PerformExplicitEulerTimeStep
+  merge-with-user-defined-mapping: PerformExplicitEulerTimeStep
+  merge-with-user-defined-mapping: CoarseSolution
+  merge-with-user-defined-mapping: ApplyRefineDeleteCriterion
+
+/**
+ * I may not apply the refinement criterion if I perform a time step, as the time 
+ * step analysis erases the linear surplus that I wanna plot. 
+ */
+adapter:
+  name: PerformExplicitEulerTimeStepAndPlot
+  merge-with-user-defined-mapping: PerformExplicitEulerTimeStep
+  merge-with-user-defined-mapping: CoarseSolution
+  merge-with-user-defined-mapping: ApplyRefineDeleteCriterion
+  merge-with-predefined-mapping: VTKPlotVertexValue(solution,getTemperature,u)
+  merge-with-predefined-mapping: VTKPlotVertexValue(rhs,getRhs,rhs)
+  
+  
+adapter:
+  name: Plot
+  merge-with-predefined-mapping: VTKPlotVertexValue(terminalSolution,getTemperature,u)
+  merge-with-predefined-mapping: VTKPlotVertexValue(finalRhs,getRhs,rhs)
+  

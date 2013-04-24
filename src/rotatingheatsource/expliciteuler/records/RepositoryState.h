@@ -31,9 +31,9 @@ namespace rotatingheatsource {
  * 		   2007-2009 Wolfgang Eckhardt
  * 		   2012      Tobias Weinzierl
  *
- * 		   build date: 20-02-2013 11:21
+ * 		   build date: 12-04-2013 09:18
  *
- * @date   02/04/2013 15:53
+ * @date   24/04/2013 12:23
  */
 class rotatingheatsource::expliciteuler::records::RepositoryState { 
    
@@ -245,9 +245,9 @@ class rotatingheatsource::expliciteuler::records::RepositoryState {
     * 		   2007-2009 Wolfgang Eckhardt
     * 		   2012      Tobias Weinzierl
     *
-    * 		   build date: 20-02-2013 11:21
+    * 		   build date: 12-04-2013 09:18
     *
-    * @date   02/04/2013 15:53
+    * @date   24/04/2013 12:23
     */
    class rotatingheatsource::expliciteuler::records::RepositoryStatePacked { 
       

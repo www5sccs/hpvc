@@ -78,7 +78,7 @@ class poissonwithjacobi_wittmanr::OracleForOnePhaseBinaryPartitioning: public pe
      * This operation is not const, as it might update some local stuff.
      */
     virtual peano::parallel::loadbalancing::LoadBalancingFlag getCommandForWorker( int workerRank, bool forkIsAllowed, bool joinIsAllowed );
-
+    virtual int getCoarsestRegularInnerAndOuterGridLevel() const;
     /**
      * Information about termination call
      *

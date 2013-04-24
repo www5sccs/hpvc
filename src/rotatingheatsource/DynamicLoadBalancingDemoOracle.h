@@ -76,6 +76,7 @@ class rotatingheatsource::DynamicLoadBalancingDemoOracle: public peano::parallel
     virtual void plotStatistics();
     virtual OracleForOnePhase* createNewOracle(int adapterNumber) const;
     virtual void forkFailed();
+    virtual int getCoarsestRegularInnerAndOuterGridLevel() const;
 };
 
 

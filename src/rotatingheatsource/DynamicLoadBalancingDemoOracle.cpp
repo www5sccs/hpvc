@@ -76,6 +76,9 @@ void rotatingheatsource::DynamicLoadBalancingDemoOracle::receivedTerminateComman
 ) {
 }
 
+int rotatingheatsource::DynamicLoadBalancingDemoOracle::getCoarsestRegularInnerAndOuterGridLevel() const{
+	return 3;
+}
 
 void rotatingheatsource::DynamicLoadBalancingDemoOracle::plotStatistics() {
 }

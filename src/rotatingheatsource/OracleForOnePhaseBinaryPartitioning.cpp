@@ -33,6 +33,9 @@ void poissonwithjacobi_wittmanr::OracleForOnePhaseBinaryPartitioning::receivedSt
   _commandFromMaster = commandFromMaster;
 }
 
+int poissonwithjacobi_wittmanr::OracleForOnePhaseBinaryPartitioning::getCoarsestRegularInnerAndOuterGridLevel() const{
+	return 3;
+}
 
 peano::parallel::loadbalancing::LoadBalancingFlag poissonwithjacobi_wittmanr::OracleForOnePhaseBinaryPartitioning::getCommandForWorker( int workerRank, bool forkIsAllowed, bool joinIsAllowed ) {
   logTraceInWith4Arguments( "getCommandForWorker(int,bool)", workerRank, forkIsAllowed, joinIsAllowed, _joinsAllowed );

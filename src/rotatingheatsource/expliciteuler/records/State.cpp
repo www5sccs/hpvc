@@ -6,7 +6,7 @@
    }
    
    
-   rotatingheatsource::expliciteuler::records::State::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell):
+   rotatingheatsource::expliciteuler::records::State::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell):
    _updateUMax(updateUMax),
    _updateUH(updateUH),
    _uMax(uMax),
@@ -23,6 +23,11 @@
    _numberOfOuterVertices(numberOfOuterVertices),
    _numberOfInnerCells(numberOfInnerCells),
    _numberOfOuterCells(numberOfOuterCells),
+   _numberOfInnerLeafVertices(numberOfInnerLeafVertices),
+   _numberOfBoundaryLeafVertices(numberOfBoundaryLeafVertices),
+   _numberOfOuterLeafVertices(numberOfOuterLeafVertices),
+   _numberOfInnerLeafCells(numberOfInnerLeafCells),
+   _numberOfOuterLeafCells(numberOfOuterLeafCells),
    _maxLevel(maxLevel),
    _hasRefined(hasRefined),
    _hasTriggeredRefinementForNextIteration(hasTriggeredRefinementForNextIteration),
@@ -30,7 +35,6 @@
    _hasTriggeredEraseForNextIteration(hasTriggeredEraseForNextIteration),
    _hasChangedVertexOrCellState(hasChangedVertexOrCellState),
    _isTraversalInverted(isTraversalInverted),
-   _loadRebalancingState(loadRebalancingState),
    _reduceStateAndCell(reduceStateAndCell) {
       
    }
@@ -41,37 +45,19 @@
    
    
    rotatingheatsource::expliciteuler::records::State::State(const PersistentRecords& persistentRecords):
-   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._maxLevel, persistentRecords._hasRefined, persistentRecords._hasTriggeredRefinementForNextIteration, persistentRecords._hasErased, persistentRecords._hasTriggeredEraseForNextIteration, persistentRecords._hasChangedVertexOrCellState, persistentRecords._isTraversalInverted, persistentRecords._loadRebalancingState, persistentRecords._reduceStateAndCell) {
+   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._numberOfInnerLeafVertices, persistentRecords._numberOfBoundaryLeafVertices, persistentRecords._numberOfOuterLeafVertices, persistentRecords._numberOfInnerLeafCells, persistentRecords._numberOfOuterLeafCells, persistentRecords._maxLevel, persistentRecords._hasRefined, persistentRecords._hasTriggeredRefinementForNextIteration, persistentRecords._hasErased, persistentRecords._hasTriggeredEraseForNextIteration, persistentRecords._hasChangedVertexOrCellState, persistentRecords._isTraversalInverted, persistentRecords._reduceStateAndCell) {
       
    }
    
    
-   rotatingheatsource::expliciteuler::records::State::State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell):
-   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted, loadRebalancingState, reduceStateAndCell) {
+   rotatingheatsource::expliciteuler::records::State::State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell):
+   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, numberOfInnerLeafVertices, numberOfBoundaryLeafVertices, numberOfOuterLeafVertices, numberOfInnerLeafCells, numberOfOuterLeafCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted, reduceStateAndCell) {
       
    }
    
    
    rotatingheatsource::expliciteuler::records::State::~State() { }
    
-   std::string rotatingheatsource::expliciteuler::records::State::toString(const LoadBalancingState& param) {
-      switch (param) {
-         case NoRebalancing: return "NoRebalancing";
-         case ForkTriggered: return "ForkTriggered";
-         case Forking: return "Forking";
-         case JoinTriggered: return "JoinTriggered";
-         case Joining: return "Joining";
-         case JoinWithMasterTriggered: return "JoinWithMasterTriggered";
-         case JoiningWithMaster: return "JoiningWithMaster";
-         case HasJoinedWithMaster: return "HasJoinedWithMaster";
-         case IsNewWorkerDueToForkOfExistingDomain: return "IsNewWorkerDueToForkOfExistingDomain";
-      }
-      return "undefined";
-   }
-   
-   std::string rotatingheatsource::expliciteuler::records::State::getLoadBalancingStateMapping() {
-      return "LoadBalancingState(NoRebalancing=0,ForkTriggered=1,Forking=2,JoinTriggered=3,Joining=4,JoinWithMasterTriggered=5,JoiningWithMaster=6,HasJoinedWithMaster=7,IsNewWorkerDueToForkOfExistingDomain=8)";
-   }
    
    
    std::string rotatingheatsource::expliciteuler::records::State::toString() const {
@@ -122,6 +108,16 @@
       out << ",";
       out << "numberOfOuterCells:" << getNumberOfOuterCells();
       out << ",";
+      out << "numberOfInnerLeafVertices:" << getNumberOfInnerLeafVertices();
+      out << ",";
+      out << "numberOfBoundaryLeafVertices:" << getNumberOfBoundaryLeafVertices();
+      out << ",";
+      out << "numberOfOuterLeafVertices:" << getNumberOfOuterLeafVertices();
+      out << ",";
+      out << "numberOfInnerLeafCells:" << getNumberOfInnerLeafCells();
+      out << ",";
+      out << "numberOfOuterLeafCells:" << getNumberOfOuterLeafCells();
+      out << ",";
       out << "maxLevel:" << getMaxLevel();
       out << ",";
       out << "hasRefined:" << getHasRefined();
@@ -135,8 +131,6 @@
       out << "hasChangedVertexOrCellState:" << getHasChangedVertexOrCellState();
       out << ",";
       out << "isTraversalInverted:" << getIsTraversalInverted();
-      out << ",";
-      out << "loadRebalancingState:" << toString(getLoadRebalancingState());
       out << ",";
       out << "reduceStateAndCell:" << getReduceStateAndCell();
       out <<  ")";
@@ -165,6 +159,11 @@
          getNumberOfOuterVertices(),
          getNumberOfInnerCells(),
          getNumberOfOuterCells(),
+         getNumberOfInnerLeafVertices(),
+         getNumberOfBoundaryLeafVertices(),
+         getNumberOfOuterLeafVertices(),
+         getNumberOfInnerLeafCells(),
+         getNumberOfOuterLeafCells(),
          getMaxLevel(),
          getHasRefined(),
          getHasTriggeredRefinementForNextIteration(),
@@ -172,7 +171,6 @@
          getHasTriggeredEraseForNextIteration(),
          getHasChangedVertexOrCellState(),
          getIsTraversalInverted(),
-         getLoadRebalancingState(),
          getReduceStateAndCell()
       );
    }
@@ -188,7 +186,7 @@
          {
             State dummyState[2];
             
-            const int Attributes = 24;
+            const int Attributes = 29;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -206,6 +204,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //hasRefined
                MPI_CHAR,		 //hasTriggeredRefinementForNextIteration
@@ -233,6 +236,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //hasRefined
                1,		 //hasTriggeredRefinementForNextIteration
@@ -263,14 +271,19 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[19] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[20] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[21] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[24] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[25] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[26] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[27] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[28] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -285,7 +298,7 @@
          {
             State dummyState[2];
             
-            const int Attributes = 26;
+            const int Attributes = 30;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -303,6 +316,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //hasRefined
                MPI_CHAR,		 //hasTriggeredRefinementForNextIteration
@@ -310,7 +328,6 @@
                MPI_CHAR,		 //hasTriggeredEraseForNextIteration
                MPI_CHAR,		 //hasChangedVertexOrCellState
                MPI_CHAR,		 //isTraversalInverted
-               MPI_INT,		 //loadRebalancingState
                MPI_CHAR,		 //reduceStateAndCell
                MPI_UB		 // end/displacement flag
             };
@@ -332,6 +349,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //hasRefined
                1,		 //hasTriggeredRefinementForNextIteration
@@ -339,7 +361,6 @@
                1,		 //hasTriggeredEraseForNextIteration
                1,		 //hasChangedVertexOrCellState
                1,		 //isTraversalInverted
-               1,		 //loadRebalancingState
                1,		 //reduceStateAndCell
                1		 // end/displacement flag
             };
@@ -364,16 +385,20 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[19] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[20] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[21] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._loadRebalancingState))), 		&disp[23] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._reduceStateAndCell))), 		&disp[24] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[25] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[24] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[25] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[26] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[27] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._reduceStateAndCell))), 		&disp[28] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[29] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -591,7 +616,7 @@
    }
    
    
-   rotatingheatsource::expliciteuler::records::StatePacked::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell):
+   rotatingheatsource::expliciteuler::records::StatePacked::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell):
    _updateUMax(updateUMax),
    _updateUH(updateUH),
    _uMax(uMax),
@@ -608,9 +633,13 @@
    _numberOfOuterVertices(numberOfOuterVertices),
    _numberOfInnerCells(numberOfInnerCells),
    _numberOfOuterCells(numberOfOuterCells),
+   _numberOfInnerLeafVertices(numberOfInnerLeafVertices),
+   _numberOfBoundaryLeafVertices(numberOfBoundaryLeafVertices),
+   _numberOfOuterLeafVertices(numberOfOuterLeafVertices),
+   _numberOfInnerLeafCells(numberOfInnerLeafCells),
+   _numberOfOuterLeafCells(numberOfOuterLeafCells),
    _maxLevel(maxLevel),
-   _isTraversalInverted(isTraversalInverted),
-   _loadRebalancingState(loadRebalancingState) {
+   _isTraversalInverted(isTraversalInverted) {
       setHasRefined(hasRefined);
       setHasTriggeredRefinementForNextIteration(hasTriggeredRefinementForNextIteration);
       setHasErased(hasErased);
@@ -628,28 +657,20 @@
    
    
    rotatingheatsource::expliciteuler::records::StatePacked::StatePacked(const PersistentRecords& persistentRecords):
-   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._maxLevel, persistentRecords.getHasRefined(), persistentRecords.getHasTriggeredRefinementForNextIteration(), persistentRecords.getHasErased(), persistentRecords.getHasTriggeredEraseForNextIteration(), persistentRecords.getHasChangedVertexOrCellState(), persistentRecords._isTraversalInverted, persistentRecords._loadRebalancingState, persistentRecords.getReduceStateAndCell()) {
+   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._numberOfInnerLeafVertices, persistentRecords._numberOfBoundaryLeafVertices, persistentRecords._numberOfOuterLeafVertices, persistentRecords._numberOfInnerLeafCells, persistentRecords._numberOfOuterLeafCells, persistentRecords._maxLevel, persistentRecords.getHasRefined(), persistentRecords.getHasTriggeredRefinementForNextIteration(), persistentRecords.getHasErased(), persistentRecords.getHasTriggeredEraseForNextIteration(), persistentRecords.getHasChangedVertexOrCellState(), persistentRecords._isTraversalInverted, persistentRecords.getReduceStateAndCell()) {
       assertion((6 < (8 * sizeof(short int))));
       
    }
    
    
-   rotatingheatsource::expliciteuler::records::StatePacked::StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell):
-   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted, loadRebalancingState, reduceStateAndCell) {
+   rotatingheatsource::expliciteuler::records::StatePacked::StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell):
+   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, numberOfInnerLeafVertices, numberOfBoundaryLeafVertices, numberOfOuterLeafVertices, numberOfInnerLeafCells, numberOfOuterLeafCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted, reduceStateAndCell) {
       assertion((6 < (8 * sizeof(short int))));
       
    }
    
    
    rotatingheatsource::expliciteuler::records::StatePacked::~StatePacked() { }
-   
-   std::string rotatingheatsource::expliciteuler::records::StatePacked::toString(const LoadBalancingState& param) {
-      return rotatingheatsource::expliciteuler::records::State::toString(param);
-   }
-   
-   std::string rotatingheatsource::expliciteuler::records::StatePacked::getLoadBalancingStateMapping() {
-      return rotatingheatsource::expliciteuler::records::State::getLoadBalancingStateMapping();
-   }
    
    
    
@@ -701,6 +722,16 @@
       out << ",";
       out << "numberOfOuterCells:" << getNumberOfOuterCells();
       out << ",";
+      out << "numberOfInnerLeafVertices:" << getNumberOfInnerLeafVertices();
+      out << ",";
+      out << "numberOfBoundaryLeafVertices:" << getNumberOfBoundaryLeafVertices();
+      out << ",";
+      out << "numberOfOuterLeafVertices:" << getNumberOfOuterLeafVertices();
+      out << ",";
+      out << "numberOfInnerLeafCells:" << getNumberOfInnerLeafCells();
+      out << ",";
+      out << "numberOfOuterLeafCells:" << getNumberOfOuterLeafCells();
+      out << ",";
       out << "maxLevel:" << getMaxLevel();
       out << ",";
       out << "hasRefined:" << getHasRefined();
@@ -714,8 +745,6 @@
       out << "hasChangedVertexOrCellState:" << getHasChangedVertexOrCellState();
       out << ",";
       out << "isTraversalInverted:" << getIsTraversalInverted();
-      out << ",";
-      out << "loadRebalancingState:" << toString(getLoadRebalancingState());
       out << ",";
       out << "reduceStateAndCell:" << getReduceStateAndCell();
       out <<  ")";
@@ -744,6 +773,11 @@
          getNumberOfOuterVertices(),
          getNumberOfInnerCells(),
          getNumberOfOuterCells(),
+         getNumberOfInnerLeafVertices(),
+         getNumberOfBoundaryLeafVertices(),
+         getNumberOfOuterLeafVertices(),
+         getNumberOfInnerLeafCells(),
+         getNumberOfOuterLeafCells(),
          getMaxLevel(),
          getHasRefined(),
          getHasTriggeredRefinementForNextIteration(),
@@ -751,7 +785,6 @@
          getHasTriggeredEraseForNextIteration(),
          getHasChangedVertexOrCellState(),
          getIsTraversalInverted(),
-         getLoadRebalancingState(),
          getReduceStateAndCell()
       );
    }
@@ -767,7 +800,7 @@
          {
             StatePacked dummyStatePacked[2];
             
-            const int Attributes = 20;
+            const int Attributes = 25;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -785,6 +818,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //isTraversalInverted
                MPI_SHORT,		 //_packedRecords0
@@ -808,6 +846,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //isTraversalInverted
                1,		 //_packedRecords0
@@ -834,10 +877,15 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[24] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -852,7 +900,7 @@
          {
             StatePacked dummyStatePacked[2];
             
-            const int Attributes = 21;
+            const int Attributes = 25;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -870,9 +918,13 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //isTraversalInverted
-               MPI_INT,		 //loadRebalancingState
                MPI_SHORT,		 //_packedRecords0
                MPI_UB		 // end/displacement flag
             };
@@ -894,9 +946,13 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //isTraversalInverted
-               1,		 //loadRebalancingState
                1,		 //_packedRecords0
                1		 // end/displacement flag
             };
@@ -921,11 +977,15 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._loadRebalancingState))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[19] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[24] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -1144,7 +1204,7 @@
    }
    
    
-   rotatingheatsource::expliciteuler::records::State::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
+   rotatingheatsource::expliciteuler::records::State::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
    _updateUMax(updateUMax),
    _updateUH(updateUH),
    _uMax(uMax),
@@ -1161,6 +1221,11 @@
    _numberOfOuterVertices(numberOfOuterVertices),
    _numberOfInnerCells(numberOfInnerCells),
    _numberOfOuterCells(numberOfOuterCells),
+   _numberOfInnerLeafVertices(numberOfInnerLeafVertices),
+   _numberOfBoundaryLeafVertices(numberOfBoundaryLeafVertices),
+   _numberOfOuterLeafVertices(numberOfOuterLeafVertices),
+   _numberOfInnerLeafCells(numberOfInnerLeafCells),
+   _numberOfOuterLeafCells(numberOfOuterLeafCells),
    _maxLevel(maxLevel),
    _hasRefined(hasRefined),
    _hasTriggeredRefinementForNextIteration(hasTriggeredRefinementForNextIteration),
@@ -1177,13 +1242,13 @@
    
    
    rotatingheatsource::expliciteuler::records::State::State(const PersistentRecords& persistentRecords):
-   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._maxLevel, persistentRecords._hasRefined, persistentRecords._hasTriggeredRefinementForNextIteration, persistentRecords._hasErased, persistentRecords._hasTriggeredEraseForNextIteration, persistentRecords._hasChangedVertexOrCellState, persistentRecords._isTraversalInverted) {
+   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._numberOfInnerLeafVertices, persistentRecords._numberOfBoundaryLeafVertices, persistentRecords._numberOfOuterLeafVertices, persistentRecords._numberOfInnerLeafCells, persistentRecords._numberOfOuterLeafCells, persistentRecords._maxLevel, persistentRecords._hasRefined, persistentRecords._hasTriggeredRefinementForNextIteration, persistentRecords._hasErased, persistentRecords._hasTriggeredEraseForNextIteration, persistentRecords._hasChangedVertexOrCellState, persistentRecords._isTraversalInverted) {
       
    }
    
    
-   rotatingheatsource::expliciteuler::records::State::State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
-   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted) {
+   rotatingheatsource::expliciteuler::records::State::State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
+   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, numberOfInnerLeafVertices, numberOfBoundaryLeafVertices, numberOfOuterLeafVertices, numberOfInnerLeafCells, numberOfOuterLeafCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted) {
       
    }
    
@@ -1240,6 +1305,16 @@
       out << ",";
       out << "numberOfOuterCells:" << getNumberOfOuterCells();
       out << ",";
+      out << "numberOfInnerLeafVertices:" << getNumberOfInnerLeafVertices();
+      out << ",";
+      out << "numberOfBoundaryLeafVertices:" << getNumberOfBoundaryLeafVertices();
+      out << ",";
+      out << "numberOfOuterLeafVertices:" << getNumberOfOuterLeafVertices();
+      out << ",";
+      out << "numberOfInnerLeafCells:" << getNumberOfInnerLeafCells();
+      out << ",";
+      out << "numberOfOuterLeafCells:" << getNumberOfOuterLeafCells();
+      out << ",";
       out << "maxLevel:" << getMaxLevel();
       out << ",";
       out << "hasRefined:" << getHasRefined();
@@ -1279,6 +1354,11 @@
          getNumberOfOuterVertices(),
          getNumberOfInnerCells(),
          getNumberOfOuterCells(),
+         getNumberOfInnerLeafVertices(),
+         getNumberOfBoundaryLeafVertices(),
+         getNumberOfOuterLeafVertices(),
+         getNumberOfInnerLeafCells(),
+         getNumberOfOuterLeafCells(),
          getMaxLevel(),
          getHasRefined(),
          getHasTriggeredRefinementForNextIteration(),
@@ -1300,7 +1380,7 @@
          {
             State dummyState[2];
             
-            const int Attributes = 24;
+            const int Attributes = 29;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -1318,6 +1398,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //hasRefined
                MPI_CHAR,		 //hasTriggeredRefinementForNextIteration
@@ -1345,6 +1430,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //hasRefined
                1,		 //hasTriggeredRefinementForNextIteration
@@ -1375,14 +1465,19 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[19] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[20] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[21] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[24] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[25] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[26] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[27] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[28] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -1397,7 +1492,7 @@
          {
             State dummyState[2];
             
-            const int Attributes = 24;
+            const int Attributes = 29;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -1415,6 +1510,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //hasRefined
                MPI_CHAR,		 //hasTriggeredRefinementForNextIteration
@@ -1442,6 +1542,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //hasRefined
                1,		 //hasTriggeredRefinementForNextIteration
@@ -1472,14 +1577,19 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[19] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[20] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[21] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasRefined))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredRefinementForNextIteration))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasErased))), 		&disp[24] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasTriggeredEraseForNextIteration))), 		&disp[25] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._hasChangedVertexOrCellState))), 		&disp[26] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[0]._persistentRecords._isTraversalInverted))), 		&disp[27] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyState[1]._persistentRecords._updateUMax))), 		&disp[28] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -1697,7 +1807,7 @@
    }
    
    
-   rotatingheatsource::expliciteuler::records::StatePacked::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
+   rotatingheatsource::expliciteuler::records::StatePacked::PersistentRecords::PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
    _updateUMax(updateUMax),
    _updateUH(updateUH),
    _uMax(uMax),
@@ -1714,6 +1824,11 @@
    _numberOfOuterVertices(numberOfOuterVertices),
    _numberOfInnerCells(numberOfInnerCells),
    _numberOfOuterCells(numberOfOuterCells),
+   _numberOfInnerLeafVertices(numberOfInnerLeafVertices),
+   _numberOfBoundaryLeafVertices(numberOfBoundaryLeafVertices),
+   _numberOfOuterLeafVertices(numberOfOuterLeafVertices),
+   _numberOfInnerLeafCells(numberOfInnerLeafCells),
+   _numberOfOuterLeafCells(numberOfOuterLeafCells),
    _maxLevel(maxLevel),
    _isTraversalInverted(isTraversalInverted) {
       setHasRefined(hasRefined);
@@ -1732,14 +1847,14 @@
    
    
    rotatingheatsource::expliciteuler::records::StatePacked::StatePacked(const PersistentRecords& persistentRecords):
-   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._maxLevel, persistentRecords.getHasRefined(), persistentRecords.getHasTriggeredRefinementForNextIteration(), persistentRecords.getHasErased(), persistentRecords.getHasTriggeredEraseForNextIteration(), persistentRecords.getHasChangedVertexOrCellState(), persistentRecords._isTraversalInverted) {
+   _persistentRecords(persistentRecords._updateUMax, persistentRecords._updateUH, persistentRecords._uMax, persistentRecords._uH, persistentRecords._timeStep, persistentRecords._timeStepSize, persistentRecords._time, persistentRecords._numberOfStencilUpdates, persistentRecords._globalPlotCounter, persistentRecords._minMeshWidth, persistentRecords._maxMeshWidth, persistentRecords._numberOfInnerVertices, persistentRecords._numberOfBoundaryVertices, persistentRecords._numberOfOuterVertices, persistentRecords._numberOfInnerCells, persistentRecords._numberOfOuterCells, persistentRecords._numberOfInnerLeafVertices, persistentRecords._numberOfBoundaryLeafVertices, persistentRecords._numberOfOuterLeafVertices, persistentRecords._numberOfInnerLeafCells, persistentRecords._numberOfOuterLeafCells, persistentRecords._maxLevel, persistentRecords.getHasRefined(), persistentRecords.getHasTriggeredRefinementForNextIteration(), persistentRecords.getHasErased(), persistentRecords.getHasTriggeredEraseForNextIteration(), persistentRecords.getHasChangedVertexOrCellState(), persistentRecords._isTraversalInverted) {
       assertion((5 < (8 * sizeof(short int))));
       
    }
    
    
-   rotatingheatsource::expliciteuler::records::StatePacked::StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
-   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted) {
+   rotatingheatsource::expliciteuler::records::StatePacked::StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted):
+   _persistentRecords(updateUMax, updateUH, uMax, uH, timeStep, timeStepSize, time, numberOfStencilUpdates, globalPlotCounter, minMeshWidth, maxMeshWidth, numberOfInnerVertices, numberOfBoundaryVertices, numberOfOuterVertices, numberOfInnerCells, numberOfOuterCells, numberOfInnerLeafVertices, numberOfBoundaryLeafVertices, numberOfOuterLeafVertices, numberOfInnerLeafCells, numberOfOuterLeafCells, maxLevel, hasRefined, hasTriggeredRefinementForNextIteration, hasErased, hasTriggeredEraseForNextIteration, hasChangedVertexOrCellState, isTraversalInverted) {
       assertion((5 < (8 * sizeof(short int))));
       
    }
@@ -1797,6 +1912,16 @@
       out << ",";
       out << "numberOfOuterCells:" << getNumberOfOuterCells();
       out << ",";
+      out << "numberOfInnerLeafVertices:" << getNumberOfInnerLeafVertices();
+      out << ",";
+      out << "numberOfBoundaryLeafVertices:" << getNumberOfBoundaryLeafVertices();
+      out << ",";
+      out << "numberOfOuterLeafVertices:" << getNumberOfOuterLeafVertices();
+      out << ",";
+      out << "numberOfInnerLeafCells:" << getNumberOfInnerLeafCells();
+      out << ",";
+      out << "numberOfOuterLeafCells:" << getNumberOfOuterLeafCells();
+      out << ",";
       out << "maxLevel:" << getMaxLevel();
       out << ",";
       out << "hasRefined:" << getHasRefined();
@@ -1836,6 +1961,11 @@
          getNumberOfOuterVertices(),
          getNumberOfInnerCells(),
          getNumberOfOuterCells(),
+         getNumberOfInnerLeafVertices(),
+         getNumberOfBoundaryLeafVertices(),
+         getNumberOfOuterLeafVertices(),
+         getNumberOfInnerLeafCells(),
+         getNumberOfOuterLeafCells(),
          getMaxLevel(),
          getHasRefined(),
          getHasTriggeredRefinementForNextIteration(),
@@ -1857,7 +1987,7 @@
          {
             StatePacked dummyStatePacked[2];
             
-            const int Attributes = 20;
+            const int Attributes = 25;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -1875,6 +2005,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //isTraversalInverted
                MPI_SHORT,		 //_packedRecords0
@@ -1898,6 +2033,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //isTraversalInverted
                1,		 //_packedRecords0
@@ -1924,10 +2064,15 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[24] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -1942,7 +2087,7 @@
          {
             StatePacked dummyStatePacked[2];
             
-            const int Attributes = 20;
+            const int Attributes = 25;
             MPI_Datatype subtypes[Attributes] = {
                MPI_DOUBLE,		 //updateUMax
                MPI_DOUBLE,		 //updateUH
@@ -1960,6 +2105,11 @@
                MPI_DOUBLE,		 //numberOfOuterVertices
                MPI_DOUBLE,		 //numberOfInnerCells
                MPI_DOUBLE,		 //numberOfOuterCells
+               MPI_DOUBLE,		 //numberOfInnerLeafVertices
+               MPI_DOUBLE,		 //numberOfBoundaryLeafVertices
+               MPI_DOUBLE,		 //numberOfOuterLeafVertices
+               MPI_DOUBLE,		 //numberOfInnerLeafCells
+               MPI_DOUBLE,		 //numberOfOuterLeafCells
                MPI_INT,		 //maxLevel
                MPI_CHAR,		 //isTraversalInverted
                MPI_SHORT,		 //_packedRecords0
@@ -1983,6 +2133,11 @@
                1,		 //numberOfOuterVertices
                1,		 //numberOfInnerCells
                1,		 //numberOfOuterCells
+               1,		 //numberOfInnerLeafVertices
+               1,		 //numberOfBoundaryLeafVertices
+               1,		 //numberOfOuterLeafVertices
+               1,		 //numberOfInnerLeafCells
+               1,		 //numberOfOuterLeafCells
                1,		 //maxLevel
                1,		 //isTraversalInverted
                1,		 //_packedRecords0
@@ -2009,10 +2164,15 @@
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterVertices))), 		&disp[13] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerCells))), 		&disp[14] );
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterCells))), 		&disp[15] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[16] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[17] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[18] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafVertices))), 		&disp[16] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfBoundaryLeafVertices))), 		&disp[17] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafVertices))), 		&disp[18] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfInnerLeafCells))), 		&disp[19] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._numberOfOuterLeafCells))), 		&disp[20] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._maxLevel))), 		&disp[21] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._isTraversalInverted))), 		&disp[22] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[0]._persistentRecords._packedRecords0))), 		&disp[23] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyStatePacked[1]._persistentRecords._updateUMax))), 		&disp[24] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );

@@ -33,19 +33,15 @@ namespace rotatingheatsource {
     * 		   2007-2009 Wolfgang Eckhardt
     * 		   2012      Tobias Weinzierl
     *
-    * 		   build date: 20-02-2013 11:21
+    * 		   build date: 12-04-2013 09:18
     *
-    * @date   02/04/2013 15:53
+    * @date   24/04/2013 12:23
     */
    class rotatingheatsource::expliciteuler::records::State { 
       
       public:
          
          typedef rotatingheatsource::expliciteuler::records::StatePacked Packed;
-         
-         enum LoadBalancingState {
-            NoRebalancing = 0, ForkTriggered = 1, Forking = 2, JoinTriggered = 3, Joining = 4, JoinWithMasterTriggered = 5, JoiningWithMaster = 6, HasJoinedWithMaster = 7, IsNewWorkerDueToForkOfExistingDomain = 8
-         };
          
          struct PersistentRecords {
             double _updateUMax;
@@ -72,6 +68,11 @@ namespace rotatingheatsource {
             double _numberOfOuterVertices;
             double _numberOfInnerCells;
             double _numberOfOuterCells;
+            double _numberOfInnerLeafVertices;
+            double _numberOfBoundaryLeafVertices;
+            double _numberOfOuterLeafVertices;
+            double _numberOfInnerLeafCells;
+            double _numberOfOuterLeafCells;
             int _maxLevel;
             bool _hasRefined;
             bool _hasTriggeredRefinementForNextIteration;
@@ -79,7 +80,6 @@ namespace rotatingheatsource {
             bool _hasTriggeredEraseForNextIteration;
             bool _hasChangedVertexOrCellState;
             bool _isTraversalInverted;
-            LoadBalancingState _loadRebalancingState;
             bool _reduceStateAndCell;
             /**
              * Generated
@@ -89,7 +89,7 @@ namespace rotatingheatsource {
             /**
              * Generated
              */
-            PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell);
+            PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell);
             
             
             inline double getUpdateUMax() const 
@@ -488,6 +488,106 @@ namespace rotatingheatsource {
             
             
             
+            inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _numberOfInnerLeafVertices;
+            }
+            
+            
+            
+            inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+            }
+            
+            
+            
+            inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _numberOfBoundaryLeafVertices;
+            }
+            
+            
+            
+            inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+            }
+            
+            
+            
+            inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _numberOfOuterLeafVertices;
+            }
+            
+            
+            
+            inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+            }
+            
+            
+            
+            inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _numberOfInnerLeafCells;
+            }
+            
+            
+            
+            inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _numberOfInnerLeafCells = numberOfInnerLeafCells;
+            }
+            
+            
+            
+            inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _numberOfOuterLeafCells;
+            }
+            
+            
+            
+            inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _numberOfOuterLeafCells = numberOfOuterLeafCells;
+            }
+            
+            
+            
             inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -628,26 +728,6 @@ namespace rotatingheatsource {
             
             
             
-            inline LoadBalancingState getLoadRebalancingState() const 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-               return _loadRebalancingState;
-            }
-            
-            
-            
-            inline void setLoadRebalancingState(const LoadBalancingState& loadRebalancingState) 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-               _loadRebalancingState = loadRebalancingState;
-            }
-            
-            
-            
             inline bool getReduceStateAndCell() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -687,7 +767,7 @@ namespace rotatingheatsource {
          /**
           * Generated
           */
-         State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell);
+         State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell);
          
          /**
           * Generated
@@ -1143,6 +1223,106 @@ namespace rotatingheatsource {
          
          
          
+         inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            return _persistentRecords._numberOfInnerLeafVertices;
+         }
+         
+         
+         
+         inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            _persistentRecords._numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+         }
+         
+         
+         
+         inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            return _persistentRecords._numberOfBoundaryLeafVertices;
+         }
+         
+         
+         
+         inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            _persistentRecords._numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+         }
+         
+         
+         
+         inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            return _persistentRecords._numberOfOuterLeafVertices;
+         }
+         
+         
+         
+         inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            _persistentRecords._numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+         }
+         
+         
+         
+         inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            return _persistentRecords._numberOfInnerLeafCells;
+         }
+         
+         
+         
+         inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            _persistentRecords._numberOfInnerLeafCells = numberOfInnerLeafCells;
+         }
+         
+         
+         
+         inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            return _persistentRecords._numberOfOuterLeafCells;
+         }
+         
+         
+         
+         inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+            _persistentRecords._numberOfOuterLeafCells = numberOfOuterLeafCells;
+         }
+         
+         
+         
          inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -1283,26 +1463,6 @@ namespace rotatingheatsource {
          
          
          
-         inline LoadBalancingState getLoadRebalancingState() const 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-            return _persistentRecords._loadRebalancingState;
-         }
-         
-         
-         
-         inline void setLoadRebalancingState(const LoadBalancingState& loadRebalancingState) 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-            _persistentRecords._loadRebalancingState = loadRebalancingState;
-         }
-         
-         
-         
          inline bool getReduceStateAndCell() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -1321,16 +1481,6 @@ namespace rotatingheatsource {
             _persistentRecords._reduceStateAndCell = reduceStateAndCell;
          }
          
-         
-         /**
-          * Generated
-          */
-         static std::string toString(const LoadBalancingState& param);
-         
-         /**
-          * Generated
-          */
-         static std::string getLoadBalancingStateMapping();
          
          /**
           * Generated
@@ -1402,15 +1552,13 @@ namespace rotatingheatsource {
        * 		   2007-2009 Wolfgang Eckhardt
        * 		   2012      Tobias Weinzierl
        *
-       * 		   build date: 20-02-2013 11:21
+       * 		   build date: 12-04-2013 09:18
        *
-       * @date   02/04/2013 15:53
+       * @date   24/04/2013 12:23
        */
       class rotatingheatsource::expliciteuler::records::StatePacked { 
          
          public:
-            
-            typedef rotatingheatsource::expliciteuler::records::State::LoadBalancingState LoadBalancingState;
             
             struct PersistentRecords {
                double _updateUMax;
@@ -1429,9 +1577,13 @@ namespace rotatingheatsource {
                double _numberOfOuterVertices;
                double _numberOfInnerCells;
                double _numberOfOuterCells;
+               double _numberOfInnerLeafVertices;
+               double _numberOfBoundaryLeafVertices;
+               double _numberOfOuterLeafVertices;
+               double _numberOfInnerLeafCells;
+               double _numberOfOuterLeafCells;
                int _maxLevel;
                bool _isTraversalInverted;
-               LoadBalancingState _loadRebalancingState;
                
                /** mapping of records:
                || Member 	|| startbit 	|| length
@@ -1452,7 +1604,7 @@ namespace rotatingheatsource {
                /**
                 * Generated
                 */
-               PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell);
+               PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell);
                
                
                inline double getUpdateUMax() const 
@@ -1851,6 +2003,106 @@ namespace rotatingheatsource {
                
                
                
+               inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _numberOfInnerLeafVertices;
+               }
+               
+               
+               
+               inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+               }
+               
+               
+               
+               inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _numberOfBoundaryLeafVertices;
+               }
+               
+               
+               
+               inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+               }
+               
+               
+               
+               inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _numberOfOuterLeafVertices;
+               }
+               
+               
+               
+               inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+               }
+               
+               
+               
+               inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _numberOfInnerLeafCells;
+               }
+               
+               
+               
+               inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _numberOfInnerLeafCells = numberOfInnerLeafCells;
+               }
+               
+               
+               
+               inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _numberOfOuterLeafCells;
+               }
+               
+               
+               
+               inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _numberOfOuterLeafCells = numberOfOuterLeafCells;
+               }
+               
+               
+               
                inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -2006,26 +2258,6 @@ namespace rotatingheatsource {
                
                
                
-               inline LoadBalancingState getLoadRebalancingState() const 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-                  return _loadRebalancingState;
-               }
-               
-               
-               
-               inline void setLoadRebalancingState(const LoadBalancingState& loadRebalancingState) 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-                  _loadRebalancingState = loadRebalancingState;
-               }
-               
-               
-               
                inline bool getReduceStateAndCell() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -2068,7 +2300,7 @@ namespace rotatingheatsource {
             /**
              * Generated
              */
-            StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const LoadBalancingState& loadRebalancingState, const bool& reduceStateAndCell);
+            StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted, const bool& reduceStateAndCell);
             
             /**
              * Generated
@@ -2524,6 +2756,106 @@ namespace rotatingheatsource {
             
             
             
+            inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _persistentRecords._numberOfInnerLeafVertices;
+            }
+            
+            
+            
+            inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _persistentRecords._numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+            }
+            
+            
+            
+            inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _persistentRecords._numberOfBoundaryLeafVertices;
+            }
+            
+            
+            
+            inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _persistentRecords._numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+            }
+            
+            
+            
+            inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _persistentRecords._numberOfOuterLeafVertices;
+            }
+            
+            
+            
+            inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _persistentRecords._numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+            }
+            
+            
+            
+            inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _persistentRecords._numberOfInnerLeafCells;
+            }
+            
+            
+            
+            inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _persistentRecords._numberOfInnerLeafCells = numberOfInnerLeafCells;
+            }
+            
+            
+            
+            inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               return _persistentRecords._numberOfOuterLeafCells;
+            }
+            
+            
+            
+            inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+               _persistentRecords._numberOfOuterLeafCells = numberOfOuterLeafCells;
+            }
+            
+            
+            
             inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -2679,26 +3011,6 @@ namespace rotatingheatsource {
             
             
             
-            inline LoadBalancingState getLoadRebalancingState() const 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-               return _persistentRecords._loadRebalancingState;
-            }
-            
-            
-            
-            inline void setLoadRebalancingState(const LoadBalancingState& loadRebalancingState) 
- #ifdef UseManualInlining
- __attribute__((always_inline))
- #endif 
- {
-               _persistentRecords._loadRebalancingState = loadRebalancingState;
-            }
-            
-            
-            
             inline bool getReduceStateAndCell() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -2720,16 +3032,6 @@ namespace rotatingheatsource {
    _persistentRecords._packedRecords0 = static_cast<short int>( reduceStateAndCell ? (_persistentRecords._packedRecords0 | mask) : (_persistentRecords._packedRecords0 & ~mask));
             }
             
-            
-            /**
-             * Generated
-             */
-            static std::string toString(const LoadBalancingState& param);
-            
-            /**
-             * Generated
-             */
-            static std::string getLoadBalancingStateMapping();
             
             /**
              * Generated
@@ -2798,9 +3100,9 @@ namespace rotatingheatsource {
           * 		   2007-2009 Wolfgang Eckhardt
           * 		   2012      Tobias Weinzierl
           *
-          * 		   build date: 20-02-2013 11:21
+          * 		   build date: 12-04-2013 09:18
           *
-          * @date   02/04/2013 15:53
+          * @date   24/04/2013 12:23
           */
          class rotatingheatsource::expliciteuler::records::State { 
             
@@ -2833,6 +3135,11 @@ namespace rotatingheatsource {
                   double _numberOfOuterVertices;
                   double _numberOfInnerCells;
                   double _numberOfOuterCells;
+                  double _numberOfInnerLeafVertices;
+                  double _numberOfBoundaryLeafVertices;
+                  double _numberOfOuterLeafVertices;
+                  double _numberOfInnerLeafCells;
+                  double _numberOfOuterLeafCells;
                   int _maxLevel;
                   bool _hasRefined;
                   bool _hasTriggeredRefinementForNextIteration;
@@ -2848,7 +3155,7 @@ namespace rotatingheatsource {
                   /**
                    * Generated
                    */
-                  PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
+                  PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
                   
                   
                   inline double getUpdateUMax() const 
@@ -3247,6 +3554,106 @@ namespace rotatingheatsource {
                   
                   
                   
+                  inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _numberOfInnerLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _numberOfBoundaryLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _numberOfOuterLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _numberOfInnerLeafCells;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _numberOfInnerLeafCells = numberOfInnerLeafCells;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _numberOfOuterLeafCells;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _numberOfOuterLeafCells = numberOfOuterLeafCells;
+                  }
+                  
+                  
+                  
                   inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -3406,7 +3813,7 @@ namespace rotatingheatsource {
                /**
                 * Generated
                 */
-               State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
+               State(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
                
                /**
                 * Generated
@@ -3862,6 +4269,106 @@ namespace rotatingheatsource {
                
                
                
+               inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _persistentRecords._numberOfInnerLeafVertices;
+               }
+               
+               
+               
+               inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _persistentRecords._numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+               }
+               
+               
+               
+               inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _persistentRecords._numberOfBoundaryLeafVertices;
+               }
+               
+               
+               
+               inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _persistentRecords._numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+               }
+               
+               
+               
+               inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _persistentRecords._numberOfOuterLeafVertices;
+               }
+               
+               
+               
+               inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _persistentRecords._numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+               }
+               
+               
+               
+               inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _persistentRecords._numberOfInnerLeafCells;
+               }
+               
+               
+               
+               inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _persistentRecords._numberOfInnerLeafCells = numberOfInnerLeafCells;
+               }
+               
+               
+               
+               inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  return _persistentRecords._numberOfOuterLeafCells;
+               }
+               
+               
+               
+               inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                  _persistentRecords._numberOfOuterLeafCells = numberOfOuterLeafCells;
+               }
+               
+               
+               
                inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -4071,9 +4578,9 @@ namespace rotatingheatsource {
              * 		   2007-2009 Wolfgang Eckhardt
              * 		   2012      Tobias Weinzierl
              *
-             * 		   build date: 20-02-2013 11:21
+             * 		   build date: 12-04-2013 09:18
              *
-             * @date   02/04/2013 15:53
+             * @date   24/04/2013 12:23
              */
             class rotatingheatsource::expliciteuler::records::StatePacked { 
                
@@ -4096,6 +4603,11 @@ namespace rotatingheatsource {
                      double _numberOfOuterVertices;
                      double _numberOfInnerCells;
                      double _numberOfOuterCells;
+                     double _numberOfInnerLeafVertices;
+                     double _numberOfBoundaryLeafVertices;
+                     double _numberOfOuterLeafVertices;
+                     double _numberOfInnerLeafCells;
+                     double _numberOfOuterLeafCells;
                      int _maxLevel;
                      bool _isTraversalInverted;
                      
@@ -4117,7 +4629,7 @@ namespace rotatingheatsource {
                      /**
                       * Generated
                       */
-                     PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
+                     PersistentRecords(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
                      
                      
                      inline double getUpdateUMax() const 
@@ -4516,6 +5028,106 @@ namespace rotatingheatsource {
                      
                      
                      
+                     inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        return _numberOfInnerLeafVertices;
+                     }
+                     
+                     
+                     
+                     inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        _numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+                     }
+                     
+                     
+                     
+                     inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        return _numberOfBoundaryLeafVertices;
+                     }
+                     
+                     
+                     
+                     inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        _numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+                     }
+                     
+                     
+                     
+                     inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        return _numberOfOuterLeafVertices;
+                     }
+                     
+                     
+                     
+                     inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        _numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+                     }
+                     
+                     
+                     
+                     inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        return _numberOfInnerLeafCells;
+                     }
+                     
+                     
+                     
+                     inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        _numberOfInnerLeafCells = numberOfInnerLeafCells;
+                     }
+                     
+                     
+                     
+                     inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        return _numberOfOuterLeafCells;
+                     }
+                     
+                     
+                     
+                     inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                        _numberOfOuterLeafCells = numberOfOuterLeafCells;
+                     }
+                     
+                     
+                     
                      inline int getMaxLevel() const 
  #ifdef UseManualInlining
  __attribute__((always_inline))
@@ -4690,7 +5302,7 @@ namespace rotatingheatsource {
                   /**
                    * Generated
                    */
-                  StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
+                  StatePacked(const double& updateUMax, const double& updateUH, const double& uMax, const double& uH, const int& timeStep, const double& timeStepSize, const double& time, const double& numberOfStencilUpdates, const int& globalPlotCounter, const tarch::la::Vector<DIMENSIONS,double>& minMeshWidth, const tarch::la::Vector<DIMENSIONS,double>& maxMeshWidth, const double& numberOfInnerVertices, const double& numberOfBoundaryVertices, const double& numberOfOuterVertices, const double& numberOfInnerCells, const double& numberOfOuterCells, const double& numberOfInnerLeafVertices, const double& numberOfBoundaryLeafVertices, const double& numberOfOuterLeafVertices, const double& numberOfInnerLeafCells, const double& numberOfOuterLeafCells, const int& maxLevel, const bool& hasRefined, const bool& hasTriggeredRefinementForNextIteration, const bool& hasErased, const bool& hasTriggeredEraseForNextIteration, const bool& hasChangedVertexOrCellState, const bool& isTraversalInverted);
                   
                   /**
                    * Generated
@@ -5142,6 +5754,106 @@ namespace rotatingheatsource {
  #endif 
  {
                      _persistentRecords._numberOfOuterCells = numberOfOuterCells;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfInnerLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _persistentRecords._numberOfInnerLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfInnerLeafVertices(const double& numberOfInnerLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _persistentRecords._numberOfInnerLeafVertices = numberOfInnerLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfBoundaryLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _persistentRecords._numberOfBoundaryLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfBoundaryLeafVertices(const double& numberOfBoundaryLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _persistentRecords._numberOfBoundaryLeafVertices = numberOfBoundaryLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfOuterLeafVertices() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _persistentRecords._numberOfOuterLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfOuterLeafVertices(const double& numberOfOuterLeafVertices) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _persistentRecords._numberOfOuterLeafVertices = numberOfOuterLeafVertices;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfInnerLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _persistentRecords._numberOfInnerLeafCells;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfInnerLeafCells(const double& numberOfInnerLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _persistentRecords._numberOfInnerLeafCells = numberOfInnerLeafCells;
+                  }
+                  
+                  
+                  
+                  inline double getNumberOfOuterLeafCells() const 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     return _persistentRecords._numberOfOuterLeafCells;
+                  }
+                  
+                  
+                  
+                  inline void setNumberOfOuterLeafCells(const double& numberOfOuterLeafCells) 
+ #ifdef UseManualInlining
+ __attribute__((always_inline))
+ #endif 
+ {
+                     _persistentRecords._numberOfOuterLeafCells = numberOfOuterLeafCells;
                   }
                   
                   

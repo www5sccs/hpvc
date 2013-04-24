@@ -24,12 +24,12 @@ peano::MappingSpecification   rotatingheatsource::expliciteuler::adapters::Setup
 
 
 peano::MappingSpecification   rotatingheatsource::expliciteuler::adapters::SetupExperiment2VTKGridVisualiser_0::enterCellSpecification() {
-  return peano::MappingSpecification(peano::MappingSpecification::Nop,peano::MappingSpecification::Serial,false);
+  return peano::MappingSpecification(peano::MappingSpecification::Nop,peano::MappingSpecification::AvoidFineGridRaces,true);
 }
 
 
 peano::MappingSpecification   rotatingheatsource::expliciteuler::adapters::SetupExperiment2VTKGridVisualiser_0::leaveCellSpecification() {
-  return peano::MappingSpecification(peano::MappingSpecification::WholeTree,peano::MappingSpecification::AvoidFineGridRaces,true);
+  return peano::MappingSpecification(peano::MappingSpecification::WholeTree,peano::MappingSpecification::Serial,false);
 }
 
 

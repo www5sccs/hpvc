@@ -110,15 +110,17 @@
          {
             Cell dummyCell[2];
             
-            const int Attributes = 3;
+            const int Attributes = 4;
             MPI_Datatype subtypes[Attributes] = {
                MPI_INT,		 //cellHeapId
+               MPI_CHAR,		 //isInside
                MPI_INT,		 //state
                MPI_UB		 // end/displacement flag
             };
             
             int blocklen[Attributes] = {
                1,		 //cellHeapId
+               1,		 //isInside
                1,		 //state
                1		 // end/displacement flag
             };
@@ -128,8 +130,9 @@
             MPI_Aint base;
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[2] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[3] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -881,9 +884,10 @@
          {
             Cell dummyCell[2];
             
-            const int Attributes = 4;
+            const int Attributes = 5;
             MPI_Datatype subtypes[Attributes] = {
                MPI_INT,		 //cellHeapId
+               MPI_CHAR,		 //isInside
                MPI_INT,		 //state
                MPI_INT,		 //level
                MPI_UB		 // end/displacement flag
@@ -891,6 +895,7 @@
             
             int blocklen[Attributes] = {
                1,		 //cellHeapId
+               1,		 //isInside
                1,		 //state
                1,		 //level
                1		 // end/displacement flag
@@ -901,9 +906,10 @@
             MPI_Aint base;
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
             MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[2] );
-            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[3] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[3] );
+            MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[4] );
             
             for (int i=1; i<Attributes; i++) {
                assertion1( disp[i] > disp[i-1], i );
@@ -1665,9 +1671,10 @@ rotatingheatsource::expliciteuler::records::CellPacked rotatingheatsource::expli
       {
          Cell dummyCell[2];
          
-         const int Attributes = 7;
+         const int Attributes = 8;
          MPI_Datatype subtypes[Attributes] = {
             MPI_INT,		 //cellHeapId
+            MPI_CHAR,		 //isInside
             MPI_INT,		 //state
             MPI_CHAR,		 //subtreeHoldsWorker
             MPI_DOUBLE,		 //nodeWorkload
@@ -1678,6 +1685,7 @@ rotatingheatsource::expliciteuler::records::CellPacked rotatingheatsource::expli
          
          int blocklen[Attributes] = {
             1,		 //cellHeapId
+            1,		 //isInside
             1,		 //state
             1,		 //subtreeHoldsWorker
             1,		 //nodeWorkload
@@ -1691,12 +1699,13 @@ rotatingheatsource::expliciteuler::records::CellPacked rotatingheatsource::expli
          MPI_Aint base;
          MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
          MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[2] );
-         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[3] );
-         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[4] );
-         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[5] );
-         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[6] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[3] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[4] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[5] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[6] );
+         MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[7] );
          
          for (int i=1; i<Attributes; i++) {
             assertion1( disp[i] > disp[i-1], i );
@@ -2487,15 +2496,17 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
    {
       Cell dummyCell[2];
       
-      const int Attributes = 3;
+      const int Attributes = 4;
       MPI_Datatype subtypes[Attributes] = {
          MPI_INT,		 //cellHeapId
+         MPI_CHAR,		 //isInside
          MPI_INT,		 //state
          MPI_UB		 // end/displacement flag
       };
       
       int blocklen[Attributes] = {
          1,		 //cellHeapId
+         1,		 //isInside
          1,		 //state
          1		 // end/displacement flag
       };
@@ -2505,8 +2516,9 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
       MPI_Aint base;
       MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
       MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-      MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-      MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[2] );
+      MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+      MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+      MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[3] );
       
       for (int i=1; i<Attributes; i++) {
          assertion1( disp[i] > disp[i-1], i );
@@ -3267,9 +3279,10 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
 {
    Cell dummyCell[2];
    
-   const int Attributes = 8;
+   const int Attributes = 9;
    MPI_Datatype subtypes[Attributes] = {
       MPI_INT,		 //cellHeapId
+      MPI_CHAR,		 //isInside
       MPI_INT,		 //state
       MPI_INT,		 //level
       MPI_CHAR,		 //subtreeHoldsWorker
@@ -3281,6 +3294,7 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
    
    int blocklen[Attributes] = {
       1,		 //cellHeapId
+      1,		 //isInside
       1,		 //state
       1,		 //level
       1,		 //subtreeHoldsWorker
@@ -3295,13 +3309,14 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
    MPI_Aint base;
    MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
    MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[2] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[3] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[4] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[5] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[6] );
-   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[7] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[3] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[4] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[5] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[6] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[7] );
+   MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[8] );
    
    for (int i=1; i<Attributes; i++) {
       assertion1( disp[i] > disp[i-1], i );
@@ -4149,9 +4164,10 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
 {
 Cell dummyCell[2];
 
-const int Attributes = 8;
+const int Attributes = 9;
 MPI_Datatype subtypes[Attributes] = {
    MPI_INT,		 //cellHeapId
+   MPI_CHAR,		 //isInside
    MPI_INT,		 //state
    MPI_INT,		 //level
    MPI_CHAR,		 //subtreeHoldsWorker
@@ -4163,6 +4179,7 @@ MPI_Datatype subtypes[Attributes] = {
 
 int blocklen[Attributes] = {
    1,		 //cellHeapId
+   1,		 //isInside
    1,		 //state
    1,		 //level
    1,		 //subtreeHoldsWorker
@@ -4177,13 +4194,14 @@ MPI_Aint     disp[Attributes];
 MPI_Aint base;
 MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
 MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[2] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[3] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[4] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[5] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[6] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[7] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[3] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[4] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[5] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[6] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[7] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[8] );
 
 for (int i=1; i<Attributes; i++) {
    assertion1( disp[i] > disp[i-1], i );
@@ -5015,9 +5033,10 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
 {
 Cell dummyCell[2];
 
-const int Attributes = 7;
+const int Attributes = 8;
 MPI_Datatype subtypes[Attributes] = {
 MPI_INT,		 //cellHeapId
+MPI_CHAR,		 //isInside
 MPI_INT,		 //state
 MPI_CHAR,		 //subtreeHoldsWorker
 MPI_DOUBLE,		 //nodeWorkload
@@ -5028,6 +5047,7 @@ MPI_UB		 // end/displacement flag
 
 int blocklen[Attributes] = {
 1,		 //cellHeapId
+1,		 //isInside
 1,		 //state
 1,		 //subtreeHoldsWorker
 1,		 //nodeWorkload
@@ -5041,12 +5061,13 @@ MPI_Aint     disp[Attributes];
 MPI_Aint base;
 MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
 MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[2] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[3] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[4] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[5] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[6] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._subtreeHoldsWorker))), 		&disp[3] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._nodeWorkload))), 		&disp[4] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._localWorkload))), 		&disp[5] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._totalWorkload))), 		&disp[6] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[7] );
 
 for (int i=1; i<Attributes; i++) {
 assertion1( disp[i] > disp[i-1], i );
@@ -5869,9 +5890,10 @@ void rotatingheatsource::expliciteuler::records::Cell::initDatatype() {
 {
 Cell dummyCell[2];
 
-const int Attributes = 4;
+const int Attributes = 5;
 MPI_Datatype subtypes[Attributes] = {
 MPI_INT,		 //cellHeapId
+MPI_CHAR,		 //isInside
 MPI_INT,		 //state
 MPI_INT,		 //level
 MPI_UB		 // end/displacement flag
@@ -5879,6 +5901,7 @@ MPI_UB		 // end/displacement flag
 
 int blocklen[Attributes] = {
 1,		 //cellHeapId
+1,		 //isInside
 1,		 //state
 1,		 //level
 1		 // end/displacement flag
@@ -5889,9 +5912,10 @@ MPI_Aint     disp[Attributes];
 MPI_Aint base;
 MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]))), &base);
 MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._cellHeapId))), 		&disp[0] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[1] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[2] );
-MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[3] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._isInside))), 		&disp[1] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._state))), 		&disp[2] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[0]._persistentRecords._level))), 		&disp[3] );
+MPI_Address( const_cast<void*>(static_cast<const void*>(&(dummyCell[1]._persistentRecords._cellHeapId))), 		&disp[4] );
 
 for (int i=1; i<Attributes; i++) {
 assertion1( disp[i] > disp[i-1], i );

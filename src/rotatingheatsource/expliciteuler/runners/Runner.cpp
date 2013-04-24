@@ -1,0 +1,203 @@
+#include "rotatingheatsource/expliciteuler/runners/Runner.h"
+
+
+#include "rotatingheatsource/expliciteuler/repositories/Repository.h"
+#include "rotatingheatsource/expliciteuler/repositories/RepositoryFactory.h"
+#include "rotatingheatsource/UserInterface.h"
+#include "rotatingheatsource/DynamicLoadBalancingDemoOracle.h"
+#include "rotatingheatsource/DynamicLoadBalancingDemoNodePoolStrategy.h"
+#include "rotatingheatsource/OracleForOnePhaseBinaryPartitioning.h"
+
+#include "peano/utils/UserInterface.h"
+
+#include "tarch/Assertions.h"
+
+#include "matrixfree/TimeStepper.h"
+
+#include "rotatingheatsource/RotatingHeatSource.h"
+#include "rotatingheatsource/DiffusionEquationScenarioService.h"
+
+
+#include "tarch/parallel/Node.h"
+#include "tarch/parallel/NodePool.h"
+//#include "tarch/parallel/FCFSNodePoolStrategy.h"
+#include "mpibalancing/FairNodePoolStrategy.h"
+#include "peano/parallel/loadbalancing/Oracle.h"
+#include "peano/parallel/SendReceiveBufferPool.h"
+#include "peano/parallel/JoinDataBufferPool.h"
+
+
+#include "tarch/logging/CommandLineLogger.h"
+
+using namespace poissonwithjacobi_wittmanr;
+
+const double rotatingheatsource::expliciteuler::runners::Runner::ThermalDiffusivity                   = 1.0;
+const double rotatingheatsource::expliciteuler::runners::Runner::ThermalDiffusivityInEmbeddedMaterial = 1.0;
+const double rotatingheatsource::expliciteuler::runners::Runner::StimulusSphereRadius                 = 0.5; // 0.01 0.5;
+//const double rotatingheatsource::expliciteuler::runners::Runner::MinimalMeshWidth                     = 0.0001;
+const double rotatingheatsource::expliciteuler::runners::Runner::MinimalMeshWidth                     = 0.01;
+const double rotatingheatsource::expliciteuler::runners::Runner::MaximalMeshWidth                     = 0.9;
+
+const double rotatingheatsource::expliciteuler::runners::Runner::InitialTimeStepSize = 1.0e-6; // 1.0e-8;
+const double rotatingheatsource::expliciteuler::runners::Runner::SnapshotDelta       = 1.0e-10; // 1.0e-10;
+const double rotatingheatsource::expliciteuler::runners::Runner::TerminalTotalTime   = 1.0; // 1.0e-6;
+const double rotatingheatsource::expliciteuler::runners::Runner::MaxDifferenceFromTimeStepToTimeStepInMaxNorm = MinimalMeshWidth*MinimalMeshWidth*0.1;
+const double rotatingheatsource::expliciteuler::runners::Runner::MaxDifferenceFromTimeStepToTimeStepInHNorm   = MaxDifferenceFromTimeStepToTimeStepInMaxNorm;
+
+
+rotatingheatsource::expliciteuler::runners::Runner::Runner() {
+}
+
+
+rotatingheatsource::expliciteuler::runners::Runner::~Runner() {
+}
+
+
+int rotatingheatsource::expliciteuler::runners::Runner::run() {
+  if (tarch::parallel::Node::getInstance().isGlobalMaster()) {
+    tarch::parallel::NodePool::getInstance().setStrategy( new mpibalancing::FairNodePoolStrategy() );
+  }
+  tarch::parallel::NodePool::getInstance().restart();
+
+  std::vector<WorkerInfo> workerSet;
+
+  peano::parallel::loadbalancing::Oracle::getInstance().setOracle(
+    new DynamicLoadBalancingDemoOracle()
+    //new OracleForOnePhaseBinaryPartitioning(true, AVERAGE_PART, workerSet)
+  );
+
+  // have to be the same for all ranks
+  peano::parallel::SendReceiveBufferPool::getInstance().setBufferSize(64);
+  peano::parallel::JoinDataBufferPool::getInstance().setBufferSize(64);
+
+  tarch::parallel::Node::getInstance().setDeadlockTimeOut(120);
+  tarch::parallel::Node::getInstance().setTimeOutWarning(60);
+
+  rotatingheatsource::RotatingHeatSource scenario(
+    ThermalDiffusivity,
+    ThermalDiffusivityInEmbeddedMaterial,
+    StimulusSphereRadius,
+    MinimalMeshWidth,
+    MaximalMeshWidth,
+    "rotating-heat-source"
+  );
+  rotatingheatsource::DiffusionEquationScenarioService::getInstance().setScenario(&scenario);
+
+  rotatingheatsource::expliciteuler::repositories::Repository* repository = 
+    rotatingheatsource::expliciteuler::repositories::RepositoryFactory::getInstance().createWithSTDStackImplementation(
+      scenario,
+      scenario.getDefaultDomainSize(),
+      scenario.getDefaultDomainOffset()
+    );
+  
+  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "info", -1, "peano::parallel::SendReceiveBufferAbstractImplementation", true ) );  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "info", -1, "peano::parallel::SendReceiveBufferPool", true ) );
+  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "info", -1, "matrixfree", true ) );
+  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "info", -1, "peano::grid::nodes", true ) );
+  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "info", -1, "peano::grid::RegularGridContainer", true ) );
+
+  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "debug", -1, "peano::parallel", false) );
+  tarch::logging::CommandLineLogger::getInstance().addFilterListEntry( ::tarch::logging::CommandLineLogger::FilterListEntry( "debug", -1, "peano::grid::nodes::loops::LoadVertexLoopBody", false) );
+
+  int result;
+  #if !defined(Parallel)
+  result = runAsMaster( *repository );
+  #else
+  if (tarch::parallel::Node::getInstance().isGlobalMaster()) {
+    result = runAsMaster( *repository );
+    tarch::parallel::NodePool::getInstance().terminate();
+  }
+  else {
+    result = runAsWorker( *repository );
+  }
+  #endif
+  
+  rotatingheatsource::expliciteuler::repositories::RepositoryFactory::getInstance().shutdownAllParallelDatatypes();
+
+  delete repository;
+  
+  return result;
+}
+
+
+int rotatingheatsource::expliciteuler::runners::Runner::runAsMaster(rotatingheatsource::expliciteuler::repositories::Repository& repository) {
+
+#ifdef Parallel
+  tarch::parallel::NodePool::getInstance().waitForAllNodesToBecomeIdle();
+#endif
+	rotatingheatsource::UserInterface userInterface(
+    "Explicit Euler",
+    InitialTimeStepSize
+  );
+
+  matrixfree::TimeStepper timeStepper(
+    InitialTimeStepSize,
+    MaxDifferenceFromTimeStepToTimeStepInMaxNorm,
+    MaxDifferenceFromTimeStepToTimeStepInHNorm,
+    SnapshotDelta,
+    true
+  );
+
+  repository.switchToSetupExperiment();
+#ifdef Parallel
+  do {
+    repository.iterate();
+  } while (!repository.getState().isGridStationary() );
+#else
+  repository.iterate();
+#endif
+  
+  int plotCounter = 0;
+  repository.getState().setGlobalPlotCounter(plotCounter);
+
+  do {
+    repository.getState().setGlobalPlotCounter(plotCounter);
+    repository.getState().clearMeasurements();
+    repository.getState().setTimeStepSize(timeStepper.getTimeStepSize());
+    repository.getState().setNextTime(timeStepper.getTime());
+
+    if (timeStepper.shallWriteSnapshot()) {
+      repository.switchToPerformExplicitEulerTimeStepAndPlot();
+      timeStepper.wroteSnapshot();
+    }
+    else {
+      repository.switchToPerformExplicitEulerTimeStep();
+    }
+
+    tarch::logging::CommandLineLogger::getInstance().closeOutputStreamAndReopenNewOne();
+    repository.iterate();
+
+    timeStepper.switchToNextTimeStep();
+    timeStepper.computeNewTimeStepSize(
+      repository.getState().getUpdateInHNorm(),
+      repository.getState().getUpdateInMaxNorm(),
+      true
+    );
+
+    userInterface.printIterationInfo(
+      timeStepper.getTime(),
+      timeStepper.getTimeStepSize(),
+      repository.getState().getUInMaxNorm(),
+      repository.getState().getUpdateInMaxNorm(),
+      repository.getState().getUInHNorm(),
+      repository.getState().getUpdateInHNorm(),
+      repository.getState().getNumberOfStencilUpdates(),
+      0,
+      repository.isActiveAdapterPerformExplicitEulerTimeStepAndPlot() ? "wrote snapshot": ""
+    );
+
+    repository.switchToPlot(); repository.iterate();
+    
+    plotCounter++;
+    repository.getState().setGlobalPlotCounter(plotCounter);
+  } while (timeStepper.getTime()<TerminalTotalTime);
+  
+  repository.switchToPlot();
+  repository.iterate();
+  plotCounter++;
+  repository.getState().setGlobalPlotCounter(plotCounter);
+
+  repository.logIterationStatistics();
+  repository.terminate();
+
+  return 0;
+}

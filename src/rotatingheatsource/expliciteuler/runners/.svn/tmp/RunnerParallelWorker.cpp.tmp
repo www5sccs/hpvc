@@ -1,0 +1,39 @@
+#include "rotatingheatsource/expliciteuler/runners/Runner.h"
+
+
+#ifdef Parallel
+#include "peano/utils/Globals.h"
+#include "tarch/parallel/NodePool.h"
+#include "peano/parallel/messages/ForkMessage.h"
+#include "rotatingheatsource/expliciteuler/repositories/Repository.h"
+#include "tarch/logging/CommandLineLogger.h"
+
+
+int rotatingheatsource::expliciteuler::runners::Runner::runAsWorker(rotatingheatsource::expliciteuler::repositories::Repository& repository) {
+  while ( tarch::parallel::NodePool::getInstance().waitForJob() >= tarch::parallel::NodePool::JobRequestMessageAnswerValues::NewMaster ) {
+    peano::parallel::messages::ForkMessage forkMessage;
+    forkMessage.receive(tarch::parallel::NodePool::getInstance().getMasterRank(),tarch::parallel::NodePool::getInstance().getTagForForkMessages(), true);
+
+    repository.restart(
+          forkMessage.getH(),
+          forkMessage.getDomainOffset(),
+          forkMessage.getLevel(),
+          forkMessage.getPositionOfFineGridCellRelativeToCoarseGridCell()
+        );
+
+    while (repository.continueToIterate()) {
+      _oracleState.isGridBalanced = repository.getState().isGridStationary();
+      tarch::logging::CommandLineLogger::getInstance().closeOutputStreamAndReopenNewOne();
+      repository.iterate();
+    }
+
+    // insert your postprocessing here
+    // -------------------------------
+
+    // -------------------------------
+
+    repository.terminate();
+  }
+  return 0;
+}
+#endif

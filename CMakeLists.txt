@@ -9,7 +9,8 @@ FILE(GLOB_RECURSE SRC src/rotatingheatsource/*.cpp src/rotatingheatsource/explic
 option(EXTERNAL_PEANO "Use external PEANO" ON)
 if(EXTERNAL_PEANO)
 	find_path(PEANO_INCLUDE_PATH "Peano/include")
-	INCLUDE_DIRECTORIES(${PEANO_INCLUDE_PATH})
+	INCLUDE_DIRECTORIES(${PEANO_INCLUDE_PATH}/src)
+	INCLUDE_DIRECTORIES(${PEANO_INCLUDE_PATH}/tarballs/toolboxes)
 	set(PEANO_LIBDIR "")
 	find_library(PEANO_LIB NAMES peano-dev PATHS ${PEANO_LIBDIR})
 	set(PEANO_DIMENSIONS 2 CACHE STRING "number of dimensions")
@@ -71,4 +72,4 @@ SET(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
 
 ADD_EXECUTABLE(hpvc ${SRC} )
-target_link_libraries(hpvc ${PEANO_LIB} ${QUERY_LIB})
+target_link_libraries(hpvc ${PEANO_LIB} ${QUERY_LIB} rt)

@@ -624,7 +624,7 @@ void rotatingheatsource::expliciteuler::mappings::PerformExplicitEulerTimeStep::
 	// @todo Query
 	rotatingheatsource::RotatingHeatSource scenario=(rotatingheatsource::RotatingHeatSource&)(rotatingheatsource::DiffusionEquationScenarioService::getInstance().getScenario());
 
-	_currentQuery = new queries::DummyQuery(scenario.getStimulusCenter()-scenario.getStimulusRadius(),2.0*scenario.getStimulusRadius(),dim,0,scenario.getTime());
+	//_currentQuery = new queries::vtkClientQuery(scenario.getStimulusCenter()-scenario.getStimulusRadius(),2.0*scenario.getStimulusRadius(),dim,0,scenario.getTime());
 	_heapId=peano::heap::Heap<queries::records::Answer>::getInstance().createData();
 	logTraceOutWith1Argument( "beginIteration(State)", solverState);
 }

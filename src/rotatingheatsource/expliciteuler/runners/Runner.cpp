@@ -28,7 +28,7 @@
 
 
 #include "tarch/logging/CommandLineLogger.h"
-
+#include "queries/vtkClientQuery.h"
 using namespace poissonwithjacobi_wittmanr;
 
 const double rotatingheatsource::expliciteuler::runners::Runner::ThermalDiffusivity                   = 1.0;
@@ -129,6 +129,7 @@ int rotatingheatsource::expliciteuler::runners::Runner::runAsMaster(rotatingheat
     InitialTimeStepSize
   );
 
+
   matrixfree::TimeStepper timeStepper(
     InitialTimeStepSize,
     MaxDifferenceFromTimeStepToTimeStepInMaxNorm,
@@ -136,6 +137,7 @@ int rotatingheatsource::expliciteuler::runners::Runner::runAsMaster(rotatingheat
     SnapshotDelta,
     true
   );
+  queries::vtkClientQuery master_client;
 
   repository.switchToSetupExperiment();
 #ifdef Parallel
@@ -154,8 +156,9 @@ int rotatingheatsource::expliciteuler::runners::Runner::runAsMaster(rotatingheat
     repository.getState().clearMeasurements();
     repository.getState().setTimeStepSize(timeStepper.getTimeStepSize());
     repository.getState().setNextTime(timeStepper.getTime());
-
+    master_client.synchronize();
     if (timeStepper.shallWriteSnapshot()) {
+
       repository.switchToPerformExplicitEulerTimeStepAndPlot();
       timeStepper.wroteSnapshot();
     }
